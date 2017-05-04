@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function(){
+
+    $(".conteudo").dblclick(function(){
+      $(this).attr("contentEditable", "True");
+      $(this).css("border-color", "red");
+    });
+
+    $(".conteudo").focusout(function(){
+      $(this).attr("contentEditable", "False");
+      $("button.savebutton").css("visibility", "visible");
+    });
+
+    $(".savebutton").click(function(){
+      var introducao = $("#introducao").text();
+      var objetivo = $("#objetivo").text();
+      var servicos = $("#servicos").text();
+      $("#hintroducao").attr("value", introducao);
+      $("#hobjetivo").attr("value", objetivo);
+      $("#hservicos").attr("value", servicos);
+      alert(introducao+objetivo+servicos);
+    });
+
+  });
+  </script>
+
+</head>
+<body>
+
+<style>
+  h1 {
+    font-family: "Arial";
+    font-weight: bold;
+    font-size: 14px
+  }
+
+  .conteudo {
+    font-family: arial;
+    font-size: 12px;
+    text-align: justify;
+    text-indent: 1cm;
+    padding-bottom: 1.5cm;
+  }
+
+  body {background-color: gray;}
+
+  .page{
+    display: block;
+    background-color: white;
+    width: 21cm;
+    height: 29.7cm;
+    margin: 0 auto;
+  }
+
+  .margem{margin: 3cm 2cm 2cm 3cm;}
+
+  div {
+    border-style: solid;
+    border-color: white;
+    border-width: thin;
+  }
+
+  .savebutton {
+    background-color: blue;
+    border-style: none;
+    color: white;
+    visibility: hidden;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+  }
+
+  .rodape {
+    position: absolute;
+    bottom: 0px;
+    border-color: red;
+  }
+</style>
+
+
+
+
+<form action="{% url 'quadro:insert' %}" method=POST enctype="multipart/form-data">
+{% csrf_token %}
+
+<input type=hidden name=introducao id=hintroducao>
+<input type=hidden name=objetivo id=hobjetivo>
+<input type=hidden name=servicos id=hservicos>
+<input type=hidden name=monitoramento id=hmonitoramento>
+<input type=hidden name=recebimento id=hrecebimento>
+<input type=hidden name=servicos id=hservicos>
+
+<button type=submit class=savebutton>Salvar</button>
+
+
+
+<div class=page>
+  <div class=margem>
+
+    <h1>Introdução</h1>
+    <div class=conteudo contentEditable="False" id=introducao>
+        TESTE
+    </div>
+
+    <h1>Objetivo</h1>
+    <div class=conteudo name=objetivo id=objetivo>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Serviços</h1>
+    <div class=conteudo name=servicos id=servicos>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Monitoramento</h1>
+    <div class=conteudo name=monitoramento id=monitoramento>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Recebimento</h1>
+    <div class=conteudo name=recebimento id=recebimento>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+    <div class=rodape>Rodape</div>
+  </div>
+</div>
+
+
+<br><br>
+
+
+<div class=page>
+  <div class=margem>
+
+    <h1>Infraestrutura</h1>
+    <div class=conteudo name=infraestrutura id=infraestrutura>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Cabeamento</h1>
+    <div class=conteudo name=cabeamento id=cabeamento>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Elétrica</h1>
+    <div class=conteudo name=eletrica id=eletrica>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Ligação do kit inibidor</h1>
+    <div class=conteudo name=kit id=kit>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Conexão</h1>
+    <div class=conteudo name=conexao id=conexao>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <h1>Preventiva</h1>
+    <div class=conteudo name=preventiva id=preventiva>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+  </div>
+</div>
+</form>
+</body>
+</html>

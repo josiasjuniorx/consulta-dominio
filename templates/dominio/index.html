@@ -1,0 +1,186 @@
+<html>
+<head>
+<title>Consulta Dominio</title>
+<meta charset="utf-8">
+{% load static %}
+
+<style type="text/css">
+.botao {
+  border-style: none;
+  background-color: #428bca;
+  color: white ;
+  height: 30px;
+  border-radius: 5px;
+}
+
+
+.searchbox {
+  height: 30px;
+  border-radius: 5px;
+  border: 1px;
+  border-style: solid;
+  border-color: #428bca;
+  width: 300px;
+}
+
+.quadro{
+  border: 1px;
+  border-style: solid;
+  border-color: #428bca;
+  border-spacing: 5px;
+}
+
+.tabela{
+  border-radius: 5px;
+  border: 1px;
+  border-style: solid;
+  border-color: #428bca;
+  border-spacing: 0px;
+  width: 750px;
+  font-family: "helvetica nue", "helvetica", "sans-serif";
+  font-size: 14px;
+  box-shadow: 2px 2px 5px black
+}
+
+.tabela th{
+  background-color: #428bca;
+  color: white;
+  height: 22px;
+  font-family: arial;
+  width: 98%;
+}
+
+.tabela td{
+  padding: 2 10 2 10px;
+}
+
+.lowercase{
+  text-transform: lowercase;
+}
+
+.sinal{
+    text-align: left;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.dominio_title{
+  font-family: "comic-sans-ms";
+  font-size: 22px;
+  color: #428bca;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px black;
+}
+.notfound{
+  color: #FF6666;
+  font-family: "helvetica nue", "helvetica", "sans-serif";
+  font-size: 16px;
+}
+
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+  $(".sinal").click(function(){
+    $(this).closest(".tabela").find("td").toggle();
+    var sinal= $(this).text();
+    $(this).text( (sinal == "-") ? "+":"-" );
+  });
+
+});
+</script>
+
+</head>
+<body>
+
+{% csrf_token %}
+
+
+<center>
+<p class=dominio_title>Consulta Domínio</p>
+<form action="{% url 'dominio:index' %}" method=post accept-charset="utf-8">
+  {% csrf_token %}
+  <input type=text name=dominio class=searchbox placeholder="Domínio FQDN" required value={{dominio}}>
+  <input type=submit value="Consultar" class="botao">
+  <select name=nserver class="botao">
+    <!--<option value="8.8.8.8">Google DNS A</option>
+    <option value="8.8.4.4">Google DNS B</option>
+    <option value="200.98.199.199">ns1.dominios.uol.com.br</option>
+    <option value="200.221.65.6">ns2.dominios.uol.com.br</option>
+    <option value="4.2.2.1">4.2.2.1 (Level3)</option>
+    <option value="4.2.2.2">4.2.2.2 (Level3)</option>
+    <option value="208.67.222.222">208.67.222.222 (Level3)</option>
+    <option value="4.2.2.2">208.67.220.220 (Level3)</option>-->
+    <option value="8.8.8.8">DNS Externo</option>
+    <option value="200.98.199.199">DNS Interno</option>
+  </select>
+</form>
+<br>
+
+
+{% if dns %}
+  <table class=tabela>
+  <th>DNS<th class=sinal>-</button></th>
+  {% for ns in dns %}
+    <tr><td class=lowercase>{{ ns }}</td></tr>
+  {% endfor %}
+  </table><br>
+{% endif %}
+
+{% if address %}
+  <table class=tabela>
+  <th>Endereços<th class=sinal>-</th></th>
+  {% for x in address %}
+    <tr><td>{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ x }}</td></tr>
+  {% endfor %}
+  {% for x in www %}
+    <tr><td>www.{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ x }}</td></tr>
+  {% endfor %}
+  {% for x in ftp %}
+    <tr><td>ftp.{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ x }}</td></tr>
+  {% endfor %}
+  </table><br>
+{% endif %}
+
+{% if dns_soa %}
+<table class=tabela>
+<th>SOA<th class=sinal>-</th></th>
+  <tr><td>{{ dns_soa }}</td></tr>
+</table><br>
+{% endif %}
+
+{% if mail %}
+  <table class=tabela>
+  <th>Servidores de E-mail<th class=sinal>-</th></th>
+  {% for server in mail %}
+    <tr><td>{{ server }}</td></tr>
+  {% endfor %}
+  </table><br>
+{% endif %}
+
+{% if dns_txt %}
+  <table class=tabela>
+  <th>SPF (Sender Policy Framework)<th class=sinal>-</th></th>
+    <tr><td>{{ dns_txt }}</td></tr>
+  </table><br>
+{% endif %}
+
+{% if domain_expiration or domain_owner %}
+  <table class=tabela>
+  <th>Informações do Dominio<th class=sinal>-</th></th>
+  {% for date in domain_expiration %}
+    <tr><td>{{ date }}</td></tr>
+  {% endfor %}
+  {% for owner in domain_owner %}
+    <tr><td>{{ owner }}</td></tr>
+  {% endfor %}
+  </table><br>
+{% endif %}
+
+</center>
+</body>
+</html>
