@@ -1,0 +1,3 @@
+/usr/bin/uwsgi -d --ini /var/www/html/dominio.ini
+service nginx start
+/bin/bash
