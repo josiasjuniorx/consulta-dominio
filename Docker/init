@@ -1,2 +1,2 @@
-/usr/bin/uwsgi -d --ini /var/www/html/dominio.ini
 service nginx start
+/usr/bin/uwsgi --ini /var/www/html/dominio.ini
