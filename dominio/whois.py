@@ -14,7 +14,10 @@ def consulta_whois(dominio):
 
 def consulta_host(dominio, nserver):
     def resposta(tipo, prefixo, dominio):
-        consulta = check_output(["host", "-t", tipo, prefixo+dominio, nserver])
+        try:
+            consulta = check_output(["host", "-t", tipo, prefixo+dominio, nserver])
+        except:
+            pass
         return consulta
 
     def add_ptr(lista_de_ip):
