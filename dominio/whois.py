@@ -2,11 +2,10 @@
 
 import re
 import searchstrings
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, check_output
 
 def consulta_whois(dominio):
-    consulta = Popen(["whois", dominio], stdin=PIPE, stdout=PIPE)
-    resposta = unicode(consulta.communicate("n\n")[0], encoding='ascii', errors='ignore')
+    resposta = check_output(["whois", dominio])
     analise_ns = re.findall(searchstrings.nameserver, str(resposta), re.IGNORECASE)
     analise_dates = re.findall(searchstrings.expiration_date, str(resposta), re.IGNORECASE)
     analise_owner = re.findall(searchstrings.owner, str(resposta), re.IGNORECASE)
@@ -15,17 +14,17 @@ def consulta_whois(dominio):
 
 def consulta_host(dominio, nserver):
     def resposta(tipo, prefixo, dominio):
-        consulta = Popen(["host", "-t", tipo, prefixo+dominio, nserver], stdin=PIPE, stdout=PIPE)
-        retorna_consulta = consulta.communicate("n\n")[0]
-        return retorna_consulta
+        consulta = check_output(["host", "-t", tipo, prefixo+dominio, nserver])
+        return consulta
 
     def add_ptr(lista_de_ip):
         ip_ptr = []
         for ip in lista_de_ip:
-            ptr = re.findall(searchstrings.ptr, resposta('ptr', '', ip), re.IGNORECASE)
-            if len(ptr) > 0:
-                ip_ptr.append(ip+' [ '+ptr[0]+' ]')
-            else:
+            try:
+                ptr = re.findall(searchstrings.ptr, resposta('ptr', '', ip), re.IGNORECASE)
+                if len(ptr) > 0:
+                    ip_ptr.append(ip+' [ '+ptr[0]+' ]')
+            except:
                 ip_ptr.append(ip)
         return ip_ptr
 
@@ -43,6 +42,13 @@ def consulta_host(dominio, nserver):
     return analise
 
 def consulta_dig(dominio, tipo):
-    consulta = Popen(["dig", "-t", tipo, dominio, "+short"], stdin=PIPE, stdout=PIPE)
-    analise_dig = consulta.communicate("n\n")[0]
-    return analise_dig
+    consulta = check_output(["dig", "-t", tipo, dominio, "+short"])
+    if (tipo == "soa" or tipo == "SOA") and len(consulta) > 0:
+        l_consulta = consulta.split()
+        consulta = {'autoridade': l_consulta[0], 'email': l_consulta[1], 'serial': l_consulta[2]}
+    return consulta
+
+def clean_dominio(dominio):
+    dominio = re.sub('.*://', '', dominio)
+    dominio = re.sub(' ', '', dominio)
+    return dominio
