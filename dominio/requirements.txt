@@ -2,3 +2,4 @@ django
 whois
 host
 dnsutils
+requests
