@@ -3,7 +3,7 @@ import requests, json
 
 def requisicao(dominio):
     try:
-        req = requests.get('http://'+dominio)
+        req = requests.get('http://'+dominio, timeout=15)
     except:
         return "Ocorreu um erro ao acessar a URL"
     ok = req.ok
