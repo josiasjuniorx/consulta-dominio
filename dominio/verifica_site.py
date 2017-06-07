@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests, json
+import requests
 
 def requisicao(dominio):
     try:

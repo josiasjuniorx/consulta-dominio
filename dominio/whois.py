@@ -2,7 +2,7 @@
 
 import re
 import searchstrings
-from subprocess import Popen, PIPE, check_output
+from subprocess import check_output
 
 def consulta_whois(dominio):
     resposta = check_output(["whois", dominio])
