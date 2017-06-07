@@ -1,4 +1,5 @@
 FROM nginx:latest
+ENV LANG pt_BR.UTF-8
 MAINTAINER Junior Lima <josiasjuniorx@gmail.com>
 
 RUN apt-get update
