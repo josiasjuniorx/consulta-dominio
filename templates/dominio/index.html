@@ -32,10 +32,10 @@
     </select>
   </form>
 </div><br>
-<div class="teste">teste</div>
-{% if dominio %}
-<!--  DNS  -->
 
+{% if dominio %}
+
+<!--  DNS  -->
 <table class=tabela>
   <th>DNS<th class=sinal>-</button></th>
     {% if dns %}
@@ -51,16 +51,16 @@
 <!--  ENDEREÇOS  -->
 <table class=tabela>
   <th>Endereços<th class=sinal>-</th></th>
-    {% if address %}
-      {% for x in address %}
-          <tr><td>{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ x }}&nbsp&nbsp</td></tr>
+    {% if enderecos.www or enderecos.ftp or enderecos.server %}
+      {% for server in enderecos.server %}
+          <tr><td>{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ server.ip }}&nbsp&nbsp {{ server.ptr }}</td></tr>
       {% endfor %}
 
-      {% for x in www %}
-          <tr><td>www.{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ x }}</td></tr>
+      {% for www in enderecos.www %}
+          <tr><td>www.{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ www.ip }}&nbsp&nbsp {{ www.ptr }}</td></tr>
       {% endfor %}
 
-      {% for x in ftp %}
+      {% for x in enderecos.ftp %}
           <tr><td>ftp.{{ dominio }}&nbsp&nbsp&#10140&nbsp&nbsp{{ x }}</td></tr>
       {% endfor %}
 </table><br>
@@ -87,10 +87,10 @@
 <!--  INFORMAÇÕES SOA  -->
 <table class=tabela>
   <th>SOA<th class=sinal>-</th></th>
-    {% if dns_soa %}
-    <tr><td><b>Autoridade: </b>{{ dns_soa.autoridade }}</td></tr>
-      <tr><td><b>Serial: </b>{{ dns_soa.serial }}</td></tr>
-      <tr><td><b>Email: </b>{{ dns_soa.email }}</td></tr>
+    {% if enderecos.soa %}
+      {% for soa in enderecos.soa %}
+        <tr><td>{{ soa }}</td></tr>
+      {% endfor %}
     {% else %}
         <tr><td class=noresult>Não foram encontrados SOA</td></tr>
     {% endif %}
@@ -99,9 +99,9 @@
 <!--  SERVIDORES DE EMAIL  -->
 <table class=tabela>
   <th>Servidores de E-mail<th class=sinal>-</th></th>
-    {% if mail %}
-      {% for server in mail %}
-        <tr><td>{{ server }}</td></tr>
+    {% if enderecos.mail %}
+      {% for mx in enderecos.mail %}
+        <tr><td>{{ mx }}</td></tr>
       {% endfor %}
     {% else %}
       <tr><td class=noresult>Não foram encontrados registros de E-mail (MX)</td></tr>
@@ -110,8 +110,10 @@
 
 <table class=tabela>
   <th>SPF (Sender Policy Framework)<th class=sinal>-</th></th>
-    {% if dns_txt %}
-      <tr><td>{{ dns_txt }}</td></tr>
+    {% if enderecos.spf %}
+      {% for spf in enderecos.spf %}
+        <tr><td>{{ spf }}</td></tr>
+      {% endfor %}
     {% else %}
       <tr><td class=noresult>Não foram encontrados registros de SPF</td></tr>
     {% endif %}

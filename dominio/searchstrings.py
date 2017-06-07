@@ -1,10 +1,22 @@
 nameserver = r'(?<= Name Server:).*|(?<=nserver:).*'
 
-address = r'(?<=has address ).*|(?<=has IPv6 Address ).*|(?<=domain name pointer ).*(?=.)'
+www = r'(?<=has address ).*|(?<=has IPv6 Address ).*|(?<=domain name pointer ).*(?=.)'
 
-mail = r'.*mail is handled by.*'
+mail = r'.*mail is handled by.*(?=.)'
+
+server = r'(?<= has address ).*'
 
 ftp = r'(?<=is an alias for ).*(?=.)'
+
+txt = r'(?<=descriptive text).*'
+
+ns = r'(?<= name server ).*(?=.)'
+
+spf = r'(?<= descriptive text ).*'
+
+soa = r'(?<= has SOA record ).*'
+
+ptr = r'(?<= domain name pointer ).*(?=.)'
 
 expiration_date = \
 r'(?<!Registration) Expiration Date:.*(?!Z)|\
@@ -34,5 +46,3 @@ Domain Status:.*|\
 query_status:.*|\
 domain:.*|\
 .*domain name:.*'
-
-ptr = r'(?<= domain name pointer ).*(?=.)'
