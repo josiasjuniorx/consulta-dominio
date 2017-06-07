@@ -56,6 +56,13 @@
   font-family: arial;
   width: 98%;
 }
+.barrath{
+  background-color: #428bca;
+  color: white;
+  height: 22px;
+  font-family: arial;
+  width: 98%;
+}
 .tabela td{
   padding: 2 10 2 10px;
 }

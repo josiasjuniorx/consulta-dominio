@@ -8,10 +8,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="{% static "index.js" %}"></script>
 </head>
-<body><center>
+<body><center><br>
 
+{% if not dominio %}
+
+{% endif %}
 <!--  BARRA DE PESQUISA  -->
-<div class=quadro>
+<div class=tabela>
   <p class=dominio_title>Consulta Domínio</p>
   <form action="{% url 'dominio:index' %}" method=post accept-charset="utf-8">
     {% csrf_token %}
