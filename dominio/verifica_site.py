@@ -5,7 +5,7 @@ def requisicao(dominio):
     try:
         req = requests.get('http://'+dominio, timeout=15)
     except:
-        return "Ocorreu um erro ao acessar a URL"
+        return "<center><p class=noresult>Ocorreu um erro ao acessar a URL</p><center><br>"
     ok = req.ok
     url = req.url
     tempo = req.elapsed.total_seconds()

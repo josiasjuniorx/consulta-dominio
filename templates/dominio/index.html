@@ -41,8 +41,8 @@
 <!--  DNS  -->
 <table class=tabela>
   <th>DNS<th class=sinal>-</button></th>
-    {% if dns %}
-      {% for ns in dns %}
+    {% if whois.nameserver %}
+      {% for ns in whois.nameserver %}
           <tr><td class=lowercase>{{ ns }}</td></tr>
       {% endfor %}
     {% else %}
@@ -125,14 +125,10 @@
 <!--  INFORMAÇÕES DOMINIO  -->
 <table class=tabela>
   <th>Informações do Dominio<th class=sinal>-</th></th>
-    {% if domain_expiration or domain_owner %}
-      {% for date in domain_expiration %}
-        <tr><td>{{ date }}</td></tr>
-      {% endfor %}
-
-      {% for owner in domain_owner %}
-        <tr><td>{{ owner }}</td></tr>
-      {% endfor %}
+    {% if whois.status or whois.expiration_date or expiration.owner %}
+      {% for date in whois.expiration_date %}<tr><td><b>{{ date }}</b></td></tr>{% endfor %}
+      {% for status in whois.status %}<tr><td><b>{{ status }}</b></td></tr>{% endfor %}
+      {% for owner in whois.owner %}<tr><td>{{ owner }}</td></tr>{% endfor %}
     {% else %}
         <tr><td class=noresult>Não foram encontradas informações sobre registro do domínio.</td></tr>
     {% endif %}

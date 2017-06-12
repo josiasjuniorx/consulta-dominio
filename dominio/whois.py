@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
+__author__ = "J. Junior"
+__email__ = "josiasjuniorx@gmail.com"
 
 import re
 import searchstrings
 from subprocess import check_output
 
 def consulta_whois(dominio):
-    resposta = check_output(["whois", dominio])
-    analise_ns = re.findall(searchstrings.nameserver, str(resposta), re.IGNORECASE)
-    analise_dates = re.findall(searchstrings.expiration_date, str(resposta), re.IGNORECASE)
-    analise_owner = re.findall(searchstrings.owner, str(resposta), re.IGNORECASE)
-    analise = {'dns': analise_ns, 'dates': analise_dates, 'owner': analise_owner}
+    infos = ['nameserver', 'expiration_date', 'owner', 'status']
+    analise = {}
+    try:
+        resposta = check_output(["whois", dominio])
+        for info in infos:
+            retorno = re.findall(getattr(searchstrings, info), resposta, re.IGNORECASE)
+            analise.update({info: retorno})
+    except:
+        pass
     return analise
 
 def consulta_host(dominio, nserver):

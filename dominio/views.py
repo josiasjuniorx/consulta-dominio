@@ -14,16 +14,14 @@ def index(request):
     dominio = clean_dominio(dominio)
 
     nserver = request.POST['nserver']
-    domain = consulta_whois(dominio)
+    whois = consulta_whois(dominio)
     enderecos = consulta_host(dominio, nserver)
 
 
     return render(request, 'dominio/index.html', {
         'dominio': dominio,
         'enderecos': enderecos,
-        'dns': domain['dns'],
-        'domain_expiration': domain['dates'],
-        'domain_owner': domain['owner'],
+        'whois': whois        
     })
 def site(request):
     dominio = request.GET['dominio']

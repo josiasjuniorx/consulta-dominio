@@ -18,6 +18,12 @@ soa = r'(?<= has SOA record ).*'
 
 ptr = r'(?<= domain name pointer ).*(?=.)'
 
+# status = r'(?<=status: ).*'
+status = \
+r'.*status:.*|\
+Registration status:.*|\
+state:.*'
+
 expiration_date = \
 r'(?<!Registration) Expiration Date:.*(?!Z)|\
 expires.*|\
@@ -39,10 +45,6 @@ Company Name:.*|\
 registrar_name:.*|\
 owner.*|\
 responsible:.*|\
-.*status:.*|\
-Registration status:.*|\
-state:.*|\
-Domain Status:.*|\
 query_status:.*|\
 domain:.*|\
 .*domain name:.*'
