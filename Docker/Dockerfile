@@ -7,6 +7,7 @@ ENV LANG C.UTF-8
 RUN pip install django requests
 RUN git clone https://github.com/josiasjuniorx/consulta-dominio.git /var/www/html/
 ADD dominio.conf /etc/nginx/conf.d/default.conf
+ADD whois.conf /etc/whois.conf
 ADD init /init
 EXPOSE 80
 CMD ["/bin/bash", "-c", "source /init"]
