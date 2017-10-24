@@ -13,7 +13,7 @@ handler = logging.FileHandler('static/logs.html')
 formatter = logging.Formatter(\
     '<center><table style="border:1px;border-style:solid;\
     width:900px;color:blue;border-color:black;font-size:12px">\
-    <tr><td>%(asctime)s  %(message)s</td></tr>',
+    <tr><td>%(asctime)s [UTC] - %(message)s</td></tr>',
     datefmt='%d/%b/%Y %H:%M:%S'\
 )
 handler.setFormatter(formatter)
@@ -31,7 +31,7 @@ def index(request):
     whois = consulta_whois(dominio)
     enderecos = consulta_host(dominio, nserver)
 
-    logger.info('[%s] consultou o dominio ( %s )', cliente, dominio)
+    logger.info('[ %s ] consultou o dominio ( %s )', cliente, dominio)
 
     return render(request, 'dominio/index.html', {
         'dominio': dominio,
