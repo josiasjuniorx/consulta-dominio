@@ -7,15 +7,17 @@ import logging
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.urls import reverse
 
-logging.basicConfig(level=logging.INFO,
-                    format='\
-                    <center><table style="border:1px;border-style:solid;\
-                    width:900px;color:blue;border-color:black;font-size:12px">\
-                    <tr><td>%(asctime)s  %(message)s</td></tr>',
-                    datefmt='%d/%b/%Y %H:%M:%S',
-                    filename='templates/dominio/logs.html',
-                    filemode='w'
-                    )
+logger = logging.getLogger("CONSULTAS")
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler('templates/dominio/logs.html')
+formatter = logging.Formatter(\
+    '<center><table style="border:1px;border-style:solid;\
+    width:900px;color:blue;border-color:black;font-size:12px">\
+    <tr><td>%(asctime)s  %(message)s</td></tr>',
+    datefmt='%d/%b/%Y %H:%M:%S'\
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 def index(request):
     if not request.method == 'POST':
@@ -29,7 +31,7 @@ def index(request):
     whois = consulta_whois(dominio)
     enderecos = consulta_host(dominio, nserver)
 
-    logging.info('[%s] consultou o dominio ( %s )', cliente, dominio)
+    logger.info('[%s] consultou o dominio ( %s )', cliente, dominio)
 
     return render(request, 'dominio/index.html', {
         'dominio': dominio,
