@@ -9,7 +9,7 @@ from django.urls import reverse
 
 logger = logging.getLogger("CONSULTAS")
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler('templates/dominio/logs.html')
+handler = logging.FileHandler('static/logs.html')
 formatter = logging.Formatter(\
     '<center><table style="border:1px;border-style:solid;\
     width:900px;color:blue;border-color:black;font-size:12px">\
@@ -42,5 +42,3 @@ def index(request):
 def site(request):
     dominio = request.GET['dominio']
     return HttpResponse(verifica_site.requisicao(dominio))
-def logs(request):
-    return render(request, 'dominio/logs.html')
