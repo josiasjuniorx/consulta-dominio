@@ -1,2 +1,2 @@
 service nginx start
-/usr/bin/uwsgi --ini /var/www/html/dominio.ini
+/usr/bin/uwsgi --ini /var/www/html/dominio.ini --buffer-size=32768
